@@ -60,7 +60,7 @@ export type EradpayPaymentType = {
   onPaymentCompleted?: () => void;
 };
 
-const API_BASE_URL = 'https://erad:3rad3rad3rad@test-app.erad.co/eradpay';
+const API_BASE_URL = 'https://app.erad.co/eradpay';
 
 const EradpayCheckout: React.FC<EradpayPaymentType> = (props) => {
   const {
