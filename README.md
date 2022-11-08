@@ -80,8 +80,13 @@ const styles = StyleSheet.create({
 | amount       | number         | use this to specify amount    |
 | currency     | EradpayCurrencyEnum       | specify currency for your transactions |
 | token     | string       | use your token      |
+| phone_code     | string       |
+| phone_code_dial     | string       |
+| phone_number     | string       |
+| fullname     | string       |
 | payment_id     | string       | use payment id from your payment logic       |
 | webhook_url     | string       | on this address we will send you the details of the transaction by post request      |
+| card_form_only     | string       | 
 | environment     | EradpayEnvironmentEnum | use this to specify environment  |
 | buttonText     | enum       | use this to specify text on your button|
 | buttonTheme     | enum       | use this to specify theme to your button|
