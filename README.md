@@ -77,19 +77,12 @@ const styles = StyleSheet.create({
 
 | Property | Type | Description |
 | :---         |     :---:      |          :---: |
-| amount       | number         | use this to specify amount    |
-| currency     | EradpayCurrencyEnum       | specify currency for your transactions |
-| token     | string       | use your token      |
-| phone_code     | string       |
-| phone_code_dial     | string       |
-| phone_number     | string       |
-| fullname     | string       |
-| payment_id     | string       | use payment id from your payment logic       |
-| webhook_url     | string       | on this address we will send you the details of the transaction by post request      |
-| card_form_only     | string       | 
 | environment     | EradpayEnvironmentEnum | use this to specify environment  |
 | buttonText     | enum       | use this to specify text on your button|
 | buttonTheme     | enum       | use this to specify theme to your button|
 | buttonStyle     | string      | use this to give styles to your button|
 | onPaymentCancelled() | function | use this to notify merchants if customer is cancelling the payment|
 | onPaymentCompleted() | function | use this to notify merchants if payment is completed |
+
+#### Payment params
+See the detailed parameters list here https://docs.erad.co/accept-payments/payment-links/one-off
