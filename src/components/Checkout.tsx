@@ -8,6 +8,10 @@ import {
   StyleProp,
 } from 'react-native';
 import queryString from 'query-string';
+import {
+  buildShortQueryParams,
+  queryParamsConfigMap,
+} from '../utils/queryParams';
 
 export enum EradpayThemeEnum {
   DEFAULT = 'deepskyblue',
@@ -29,11 +33,26 @@ export const enum EradpayCurrencyEnum {
 
 export type EradpayPaymentType = {
   amount: number;
+  amount_first_time?: number;
+  auth_auto_capture_mode?: string;
+  auth_time?: number;
   currency: EradpayCurrencyEnum;
+  customer_id?: string;
+  frequency?: string;
   token: string;
   payment_id: number;
+  start_date?: string;
   environment: EradpayEnvironmentEnum;
+  fullname?: string;
+  lastname?: string;
+  email?: string;
+  is_authorize_only?: boolean;
+  phone_code?: string;
+  phone_code_dial?: string;
+  phone_number?: string;
   webhook_url?: string;
+  card_form_only?: boolean;
+  lng?: string;
   buttonText?: string;
   buttonStyle?: StyleProp<any>;
   buttonTheme?: EradpayThemeEnum;
@@ -41,15 +60,30 @@ export type EradpayPaymentType = {
   onPaymentCompleted?: () => void;
 };
 
-const API_BASE_URL = 'https://app.erad.co/eradpay';
+const API_BASE_URL = 'https://erad:3rad3rad3rad@test-app.erad.co/eradpay';
 
 const EradpayCheckout: React.FC<EradpayPaymentType> = (props) => {
   const {
     amount,
+    amount_first_time = 0,
+    auth_auto_capture_mode = '',
+    auth_time = 0,
     currency,
+    customer_id,
+    frequency,
     token,
     payment_id,
+    start_date = '',
     webhook_url = '',
+    fullname = '',
+    lastname = '',
+    email = '',
+    is_authorize_only = false,
+    phone_code = '',
+    phone_code_dial = '',
+    phone_number = '',
+    card_form_only = false,
+    lng = 'en',
     environment,
     buttonText = 'Checkout',
     buttonStyle,
@@ -58,15 +92,38 @@ const EradpayCheckout: React.FC<EradpayPaymentType> = (props) => {
     onPaymentCompleted = () => {},
   } = props;
 
-  const searchParamsStr = new URLSearchParams({
+  const queryParams = {
     amount: amount.toString(),
+    amount_first_time: amount_first_time.toString(),
+    auth_auto_capture_mode,
+    auth_time: auth_time.toString(),
     currency,
+    customer_id,
+    frequency,
     mode: environment,
     token,
     webhook_url,
+    fullname,
+    lastname,
+    email,
+    is_authorize_only: is_authorize_only ? 1 : 0,
+    phone_code,
+    phone_code_dial,
+    phone_number,
+    card_form_only: card_form_only ? 1 : 0,
+    lng,
     payment_id: payment_id.toString(),
-  }).toString();
-  const checkoutUrl = `${API_BASE_URL}?${searchParamsStr}`;
+    start_date,
+    platform: 'rn',
+  };
+  const searchParams = new URLSearchParams(
+    buildShortQueryParams(queryParams, queryParamsConfigMap)
+  );
+  const checkoutUrl = `${API_BASE_URL}?${searchParams
+    .toString()
+    .toLowerCase()}`;
+
+  console.log('=checkoutUrl2', checkoutUrl);
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
