@@ -52,6 +52,7 @@ export type EradpayPaymentType = {
   phone_number?: string;
   webhook_url?: string;
   card_form_only?: boolean;
+  is_save_card?: boolean;
   lng?: string;
   buttonText?: string;
   buttonStyle?: StyleProp<any>;
@@ -83,6 +84,7 @@ const EradpayCheckout: React.FC<EradpayPaymentType> = (props) => {
     phone_code_dial = '',
     phone_number = '',
     card_form_only = false,
+    is_save_card = false,
     lng = 'en',
     environment,
     buttonText = 'Checkout',
@@ -111,6 +113,7 @@ const EradpayCheckout: React.FC<EradpayPaymentType> = (props) => {
     phone_code_dial,
     phone_number,
     card_form_only: card_form_only ? 1 : 0,
+    is_save_card: is_save_card ? 1 : 0,
     lng,
     payment_id: payment_id.toString(),
     start_date,
