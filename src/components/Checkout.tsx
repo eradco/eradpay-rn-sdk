@@ -1,4 +1,9 @@
-import React, { useState } from 'react';
+import React, {
+  useState,
+  forwardRef,
+  useImperativeHandle,
+  useCallback,
+} from 'react';
 import WebView, { WebViewNavigation } from 'react-native-webview';
 import {
   Text,
@@ -61,9 +66,13 @@ export type EradpayPaymentType = {
   onPaymentCompleted?: () => void;
 };
 
+type PressRefHandle = {
+  press: () => void;
+};
+
 const API_BASE_URL = 'https://app.erad.co/eradpay';
 
-const EradpayCheckout: React.FC<EradpayPaymentType> = (props) => {
+const EradpayCheckout: React.FC<EradpayPaymentType> = forwardRef<PressRefHandle,EradpayPaymentType>((props, ref) => {
   const {
     amount,
     amount_first_time = 0,
@@ -126,13 +135,23 @@ const EradpayCheckout: React.FC<EradpayPaymentType> = (props) => {
     .toString()
     .toLowerCase()}`;
 
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+
   console.log('eradpay url:', checkoutUrl);
 
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const handleButtonPress = useCallback(() => {
+    setModalVisible(!modalVisible);
+  }, [modalVisible]);
+
+  useImperativeHandle(ref, () => ({
+    press() {
+      handleButtonPress();
+    },
+  }));
 
   return (
     <TouchableOpacity
-      onPress={() => setModalVisible(!modalVisible)}
+      onPress={() => handleButtonPress()}
       style={[
         styles.button,
         buttonStyle,
@@ -187,7 +206,7 @@ const EradpayCheckout: React.FC<EradpayPaymentType> = (props) => {
       </Text>
     </TouchableOpacity>
   );
-};
+});
 
 export default EradpayCheckout;
 
