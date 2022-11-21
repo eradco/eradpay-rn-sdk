@@ -72,7 +72,10 @@ type PressRefHandle = {
 
 const API_BASE_URL = 'https://app.erad.co/eradpay';
 
-const EradpayCheckout: React.FC<EradpayPaymentType> = forwardRef<PressRefHandle,EradpayPaymentType>((props, ref) => {
+const EradpayCheckout: React.FC<EradpayPaymentType> = forwardRef<
+  PressRefHandle,
+  EradpayPaymentType
+>((props, ref) => {
   const {
     amount,
     amount_first_time = 0,
@@ -131,9 +134,10 @@ const EradpayCheckout: React.FC<EradpayPaymentType> = forwardRef<PressRefHandle,
   const searchParams = new URLSearchParams(
     buildShortQueryParams(queryParams, queryParamsConfigMap)
   );
-  const checkoutUrl = `${API_BASE_URL}?${searchParams
-    .toString()
-    .toLowerCase()}`;
+  const checkoutUrl = `${API_BASE_URL}?${searchParams.toString().toLowerCase()}`
+    // filter empty query params
+    .replace(/\w+=&/g, '')
+    .replace(/&\w+=$/, '');
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
