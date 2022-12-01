@@ -64,6 +64,7 @@ export type EradpayPaymentType = {
   buttonTheme?: EradpayThemeEnum;
   onPaymentCancelled?: () => void;
   onPaymentCompleted?: () => void;
+  product_name?: string;
 };
 
 type PressRefHandle = {
@@ -72,7 +73,10 @@ type PressRefHandle = {
 
 const API_BASE_URL = 'https://app.erad.co/eradpay';
 
-const EradpayCheckout: React.FC<EradpayPaymentType> = forwardRef<PressRefHandle,EradpayPaymentType>((props, ref) => {
+const EradpayCheckout: React.FC<EradpayPaymentType> = forwardRef<
+  PressRefHandle,
+  EradpayPaymentType
+>((props, ref) => {
   const {
     amount,
     amount_first_time = 0,
@@ -101,6 +105,7 @@ const EradpayCheckout: React.FC<EradpayPaymentType> = forwardRef<PressRefHandle,
     buttonTheme = EradpayThemeEnum.DEFAULT,
     onPaymentCancelled = () => {},
     onPaymentCompleted = () => {},
+    product_name,
   } = props;
 
   const queryParams = {
@@ -127,6 +132,7 @@ const EradpayCheckout: React.FC<EradpayPaymentType> = forwardRef<PressRefHandle,
     payment_id: payment_id.toString(),
     start_date,
     platform: 'rn',
+    product_name,
   };
   const searchParams = new URLSearchParams(
     buildShortQueryParams(queryParams, queryParamsConfigMap)
