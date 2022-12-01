@@ -65,6 +65,7 @@ export type EradpayPaymentType = {
   onPaymentCancelled?: () => void;
   onPaymentCompleted?: () => void;
   product_name?: string;
+  is_case_sensitive?: boolean;
 };
 
 type PressRefHandle = {
@@ -106,6 +107,7 @@ const EradpayCheckout: React.FC<EradpayPaymentType> = forwardRef<
     onPaymentCancelled = () => {},
     onPaymentCompleted = () => {},
     product_name,
+    is_case_sensitive,
   } = props;
 
   const queryParams = {
@@ -137,9 +139,11 @@ const EradpayCheckout: React.FC<EradpayPaymentType> = forwardRef<
   const searchParams = new URLSearchParams(
     buildShortQueryParams(queryParams, queryParamsConfigMap)
   );
-  const checkoutUrl = `${API_BASE_URL}?${searchParams
-    .toString()
-    .toLowerCase()}`;
+  const generateUrl = `${API_BASE_URL}?${searchParams.toString()}`;
+
+  const checkoutUrl = is_case_sensitive
+    ? generateUrl
+    : generateUrl.toLowerCase();
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
