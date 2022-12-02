@@ -132,7 +132,7 @@ const EradpayCheckout: React.FC<EradpayPaymentType> = forwardRef<
     payment_id: payment_id.toString(),
     start_date,
     platform: 'rn',
-    product_name,
+    product_name: encodeURIComponent(product_name || ''),
   };
   const searchParams = new URLSearchParams(
     buildShortQueryParams(queryParams, queryParamsConfigMap)
