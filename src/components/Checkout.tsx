@@ -136,14 +136,16 @@ const EradpayCheckout: React.FC<EradpayPaymentType> = forwardRef<
     platform: 'rn',
     product_name,
   };
-  const searchParams = new URLSearchParams(
-    buildShortQueryParams(queryParams, queryParamsConfigMap)
-  );
-  const generateUrl = `${API_BASE_URL}?${searchParams.toString()}`;
 
-  const checkoutUrl = is_case_sensitive
-    ? generateUrl
-    : generateUrl.toLowerCase();
+  const generateParams = new URLSearchParams(
+    buildShortQueryParams(queryParams, queryParamsConfigMap)
+  ).toString();
+
+  const searchParams = is_case_sensitive
+    ? generateParams
+    : generateParams.toLowerCase();
+
+  const checkoutUrl = `${API_BASE_URL}?${searchParams}`;
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
