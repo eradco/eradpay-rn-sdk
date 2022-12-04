@@ -64,6 +64,8 @@ export type EradpayPaymentType = {
   buttonTheme?: EradpayThemeEnum;
   onPaymentCancelled?: () => void;
   onPaymentCompleted?: () => void;
+  product_name?: string;
+  is_case_sensitive?: boolean;
 };
 
 type PressRefHandle = {
@@ -72,7 +74,10 @@ type PressRefHandle = {
 
 const API_BASE_URL = 'https://app.erad.co/eradpay';
 
-const EradpayCheckout: React.FC<EradpayPaymentType> = forwardRef<PressRefHandle,EradpayPaymentType>((props, ref) => {
+const EradpayCheckout: React.FC<EradpayPaymentType> = forwardRef<
+  PressRefHandle,
+  EradpayPaymentType
+>((props, ref) => {
   const {
     amount,
     amount_first_time = 0,
@@ -101,6 +106,8 @@ const EradpayCheckout: React.FC<EradpayPaymentType> = forwardRef<PressRefHandle,
     buttonTheme = EradpayThemeEnum.DEFAULT,
     onPaymentCancelled = () => {},
     onPaymentCompleted = () => {},
+    product_name,
+    is_case_sensitive,
   } = props;
 
   const queryParams = {
@@ -127,13 +134,18 @@ const EradpayCheckout: React.FC<EradpayPaymentType> = forwardRef<PressRefHandle,
     payment_id: payment_id.toString(),
     start_date,
     platform: 'rn',
+    product_name: encodeURIComponent(product_name || ''),
   };
-  const searchParams = new URLSearchParams(
+
+  const generateParams = new URLSearchParams(
     buildShortQueryParams(queryParams, queryParamsConfigMap)
-  );
-  const checkoutUrl = `${API_BASE_URL}?${searchParams
-    .toString()
-    .toLowerCase()}`;
+  ).toString();
+
+  const searchParams = is_case_sensitive
+    ? generateParams
+    : generateParams.toLowerCase();
+
+  const checkoutUrl = `${API_BASE_URL}?${searchParams}`;
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
