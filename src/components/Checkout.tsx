@@ -185,7 +185,12 @@ const EradpayCheckout: React.FC<EradpayPaymentType> = forwardRef<
           domStorageEnabled={true}
           javaScriptEnabled={true}
           javaScriptEnabledAndroid={true}
-          style={{ flex: 1 }}
+          startInLoadingState={true}
+          style={{ 
+            flex: 1,
+            width: Dimensions.get('window').width, 
+            height: Dimensions.get('window').height
+          }}
           onNavigationStateChange={(event: WebViewNavigation) => {
             const url = event.url;
             const params = url.split('?')[1];
