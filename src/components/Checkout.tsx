@@ -11,6 +11,7 @@ import {
   StyleSheet,
   Modal,
   StyleProp,
+  Dimensions,
 } from 'react-native';
 import queryString from 'query-string';
 import {
