@@ -1,7 +1,7 @@
 {
   "name": "@erad/eradpay-rn-sdk",
   "author": "Eradpay",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "main": "index.js",
   "typings": "index.d.ts",
